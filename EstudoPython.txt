@@ -1,0 +1,77 @@
+"""
+Estudos de Python
+Resumo
+
+Essa imagem é um excelente guia de consulta rápida (Cheat Sheet) para **Numpy** e **Pandas**, as bibliotecas essenciais para Ciência de Dados em Python.
+
+Aqui está o resumo objetivo de cada seção:
+
+---
+
+## **Numpy (Cálculo Numérico e Matrizes)**
+
+* **Array Creation:** Funções para criar matrizes do zero, como `np.array()` (converte lista em matriz), `np.zeros()` (matriz de zeros) e `np.linspace()` (sequência de números igualmente espaçados).
+* **Statistical Functions:** Cálculos rápidos de estatística como média (`np.mean()`), mediana (`np.median()`), desvio padrão (`np.std()`) e valores mínimos/máximos.
+* **Linear Algebra:** Operações matemáticas avançadas como multiplicação de matrizes (`np.dot()`, `np.matmul()`), inversão de matrizes e determinantes.
+* **Random:** Gera números aleatórios, seja de forma inteira (`randint()`), seguindo uma distribuição normal ou escolhendo itens ao acaso (`choice()`).
+* **Aggregation:** Soma (`np.sum()`) ou produto (`np.prod()`) de todos os elementos, além de somas acumuladas (`cumsum()`).
+* **Indexing & Slicing:** Selecionar dados específicos. `np.where()` é muito útil para encontrar a posição de elementos que atendem a uma condição.
+* **Shape Manipulation:** Muda o formato da matriz sem alterar os dados, como `np.reshape()` (mudar linhas/colunas) ou `np.flatten()` (transformar em uma única linha).
+
+> **Atenção:** Na imagem, a seção **"Array Operations"** dentro de Numpy contém comandos que na verdade pertencem ao **Pandas** (como `df.head()`).
+
+---
+
+## **Pandas (Manipulação de Tabelas/DataFrames)**
+
+* **DataFrame Creation:** Comandos para carregar dados de arquivos externos (`pd.read_csv()` para CSV ou `pd.read_excel()` para planilhas) ou criar tabelas do zero.
+* **Operations:** Visão geral da tabela. `df.head()` mostra as primeiras linhas e `df.info()` exibe tipos de dados e valores nulos.
+* **Selection:** Filtros de dados. `df.iloc[]` usa posições numéricas, enquanto `df.loc[]` usa os nomes das linhas/colunas.
+* **Manipulation:** Alterar a estrutura. `df.drop()` exclui colunas/linhas e `df.rename()` muda os nomes dos cabeçalhos.
+* **Missing Data:** Essencial para limpeza. `df.isnull()` identifica buracos nos dados e `df.fillna()` preenche esses vazios.
+* **Aggregation:** Resumos de dados. `df.groupby()` agrupa dados por categorias (ex: vendas por região) e `df.pivot_table()` cria tabelas dinâmicas.
+* **Merging & Joining:** Combina duas ou mais tabelas em uma só, similar ao "JOIN" do SQL.
+* **Sorting:** Organiza as linhas por valores (`sort_values()`) ou pelos índices.
+* **String Operations:** Manipulação de textos dentro das células, como verificar se contém uma palavra ou dividir textos.
+* **Datetime Functions:** Converte textos em datas reais (`pd.to_datetime()`) e extrai ano, mês ou dia de forma automática.
+* **Window Functions:** Cálculos de janelas móveis, como a média móvel (`df.rolling()`), muito usada em análise de ações.
+
+_____________________________________________
+
+Pepiline Análise de Dados
+
+Para realizar uma análise de dados profissional, você deve seguir uma sequência lógica chamada de **Pipeline de Dados**. Aqui está o resumo objetivo conectando cada etapa aos comandos da sua "Cheat Sheet":
+
+___________Pandas_________
+Usamos 80% do tempo, passos 1 ao 4
+
+### 1. Ingestão e Exploração Inicial
+Carregar os dados e entender o que há neles (colunas, tipos e tamanho).
+pd.read_csv()` ou `pd.read_excel()` para abrir o arquivo; `df.info()` para ver os tipos de dados; `df.head()` para olhar as primeiras linhas.
+
+### 2. Limpeza de Dados (Data Cleaning)
+Remover erros, tratar valores vazios e converter formatos para não travar o modelo de Machine Learning.
+df.isnull().sum()` para achar vazios; `df.fillna()` ou `df.dropna()` para tratar esses vazios; `pd.to_datetime()` para corrigir datas.
+
+### 3. Manipulação e Transformação
+Criar novas colunas ou filtrar apenas o que é relevante para o seu problema.
+df.drop()` para remover colunas inúteis; `df['nova_coluna'] = ...` para cálculos; `df.rename()` para padronizar nomes.
+
+### 4. Análise Estatística e Agregação
+Gerar resumos matemáticos para entender tendências e comportamentos.
+`df.describe()` para estatísticas gerais; `df.groupby().agg()` para somar ou tirar médias por categoria; `np.mean()` ou `np.std()` para métricas específicas.
+
+______Numpy______
+Você usa para cálculos matemáticos e preparar os dados para o modelo
+
+### 5. Pré-processamento para Machine Learning
+Transformar tudo em números e escalas que o computador entenda (Matrizes Numpy).
+`np.array()` para converter a tabela; `np.reshape()` para ajustar o formato exigido pelo modelo; `df.query()` para separar dados de treino e teste.
+
+_________Scikit-Learn________
+Você usa para o Machine Learning final
+
+### 6. Modelagem e Previsão
+Treinar a IA para aprender padrões e fazer predições futuras.
+`modelo.fit(X, y)` para treinar; `modelo.predict(X_novo)` para prever novos valores (usando bibliotecas como Scikit-Learn).
+
