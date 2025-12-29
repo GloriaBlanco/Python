@@ -1,13 +1,61 @@
 """
 Estudos de Python
-Resumo
 
-Essa imagem é um excelente guia de consulta rápida (Cheat Sheet) para **Numpy** e **Pandas**, as bibliotecas essenciais para Ciência de Dados em Python.
+Para trabalhar com arquivos `.csv` no Python, a biblioteca principal é o **Pandas**. 
+Quando você carrega um CSV, ele se torna um **DataFrame** (uma tabela inteligente).
+Aqui estão os comandos fundamentais divididos por "objetivo", para você usar no seu dia a dia:
 
-Aqui está o resumo objetivo de cada seção:
+### 1. Comandos de Exploração (Para conhecer os dados)
+Estes comandos não alteram nada, apenas servem para você "espiar" o que tem no arquivo.
 
----
+`df.head()`**: Mostra as primeiras 5 linhas. Ótimo para ver se os nomes das colunas estão certos.
+`df.tail()`**: Mostra as últimas 5 linhas.
+`df.info()`**: Mostra o "RG" da tabela: quantas linhas existem, se há valores nulos e qual o tipo de dado (número ou texto) em cada coluna.
+`df.describe()`**: O comando "mágico". Ele calcula automaticamente a média, valor mínimo, máximo e desvio padrão de todas as colunas numéricas.
+`df.shape`**: Diz o tamanho da tabela (Ex: 100 linhas, 5 colunas).
+`df.columns`**: Lista os nomes de todas as colunas.
 
+### 2. Comandos de Seleção e Filtro
+Para focar apenas naquilo que te interessa.
+
+`df['Nome_da_Coluna']`**: Seleciona apenas uma coluna específica.
+`df[['Col1', 'Col2']]`**: Seleciona várias colunas ao mesmo tempo.
+`df.loc[df['Vendas'] > 500]`**: Filtra a tabela (neste caso, mostra apenas linhas onde as vendas foram maiores que 500).
+`df.unique()`**: Mostra quais são os valores únicos de uma coluna (útil para ver quantas cidades diferentes existem, por exemplo).
+
+### 3. Comandos de Limpeza (Passo 5 da Pipeline)
+Para arrumar a casa antes de enviar para o robô.
+
+`df.isnull().sum()`**: Conta quantos "buracos" (valores vazios) existem em cada coluna.
+`df.dropna()`**: Remove todas as linhas que tenham valores vazios.
+`df.fillna(0)`**: Preenche os valores vazios com `0` (ou qualquer outro valor que você escolher).
+`df.rename(columns={'nome_antigo': 'nome_novo'})`**: Muda o nome de uma coluna.
+
+### 4. Comandos de Transformação e Agrupamento
+Para gerar inteligência sobre os dados.
+
+`df.groupby('Cidade')['Vendas'].sum()`**: Soma todas as vendas, separadas por cidade.
+`df.sort_values(by='Vendas', ascending=False)`**: Coloca a tabela em ordem, da maior venda para a menor.
+`df['Nova_Coluna'] = df['Preco'] * 1.1`**: Cria uma nova coluna (ex: aplicando 10% de aumento).
+
+### 5. Comandos de Saída (Salvar)
+Para exportar o seu trabalho.
+
+`df.to_csv('final.csv', index=False)`**: Salva como CSV.
+`df.to_excel('final.xlsx', index=False)`**: Salva como Excel (requer a biblioteca `openpyxl`).
+
+### Exemplo de uso rápido:
+import pandas as pd
+df = pd.read_csv('exemplo1.csv', sep=';')
+# Explorar
+print(df.describe())
+# Filtrar apenas investimentos altos
+altos = df[df['Investimento_Marketing'] > 500]
+# Salvar o resultado
+altos.to_csv('investimentos_altos.csv', index=False)
+
+
+_____________________________________________
 ## **Numpy (Cálculo Numérico e Matrizes)**
 
 * **Array Creation:** Funções para criar matrizes do zero, como `np.array()` (converte lista em matriz), `np.zeros()` (matriz de zeros) e `np.linspace()` (sequência de números igualmente espaçados).
