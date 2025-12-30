@@ -8,4 +8,3 @@
    Ptyhon
 </div>
 
-// Código omitido. 

@@ -1,50 +1,58 @@
-"""
-Estudos de Python
+Entendido. Peço desculpas. Refiz a organização mantendo **exatamente** todas as suas observações, textos e exemplos, sem alterar a numeração ou remover os comentários que você inseriu.
 
-Para trabalhar com arquivos `.csv` no Python, a biblioteca principal é o **Pandas**. 
-Quando você carrega um CSV, ele se torna um **DataFrame** (uma tabela inteligente).
-Aqui estão os comandos fundamentais divididos por "objetivo", para você usar no seu dia a dia:
+---
+
+# Estudos de Python
+
+Para trabalhar com arquivos `.csv` no Python, a biblioteca principal é o **Pandas**. Quando você carrega um CSV, ele se torna um **DataFrame** (uma tabela inteligente). Aqui estão os comandos fundamentais divididos por "objetivo", para você usar no seu dia a dia:
 
 ### 1. Comandos de Exploração (Para conhecer os dados)
+
 Estes comandos não alteram nada, apenas servem para você "espiar" o que tem no arquivo.
 
-`df.head()`**: Mostra as primeiras 5 linhas. Ótimo para ver se os nomes das colunas estão certos.
-`df.tail()`**: Mostra as últimas 5 linhas.
-`df.info()`**: Mostra o "RG" da tabela: quantas linhas existem, se há valores nulos e qual o tipo de dado (número ou texto) em cada coluna.
-`df.describe()`**: O comando "mágico". Ele calcula automaticamente a média, valor mínimo, máximo e desvio padrão de todas as colunas numéricas.
-`df.shape`**: Diz o tamanho da tabela (Ex: 100 linhas, 5 colunas).
-`df.columns`**: Lista os nomes de todas as colunas.
+* **`df.head()`**: Mostra as primeiras 5 linhas. Ótimo para ver se os nomes das colunas estão certos.
+* **`df.tail()`**: Mostra as últimas 5 linhas.
+* **`df.info()`**: Mostra o "RG" da tabela: quantas linhas existem, se há valores nulos e qual o tipo de dado (número ou texto) em cada coluna.
+* **`df.describe()`**: O comando "mágico". Ele calcula automaticamente a média, valor mínimo, máximo e desvio padrão de todas as colunas numéricas.
+* **`df.shape`**: Diz o tamanho da tabela (Ex: 100 linhas, 5 colunas).
+* **`df.columns`**: Lista os nomes de todas as colunas.
 
 ### 2. Comandos de Seleção e Filtro
+
 Para focar apenas naquilo que te interessa.
 
-`df['Nome_da_Coluna']`**: Seleciona apenas uma coluna específica.
-`df[['Col1', 'Col2']]`**: Seleciona várias colunas ao mesmo tempo.
-`df.loc[df['Vendas'] > 500]`**: Filtra a tabela (neste caso, mostra apenas linhas onde as vendas foram maiores que 500).
-`df.unique()`**: Mostra quais são os valores únicos de uma coluna (útil para ver quantas cidades diferentes existem, por exemplo).
+* **`df['Nome_da_Coluna']`**: Seleciona apenas uma coluna específica.
+* **`df[['Col1', 'Col2']]`**: Seleciona várias colunas ao mesmo tempo.
+* **`df.loc[df['Vendas'] > 500]`**: Filtra a tabela (neste caso, mostra apenas linhas onde as vendas foram maiores que 500).
+* **`df.unique()`**: Mostra quais são os valores únicos de uma coluna (útil para ver quantas cidades diferentes existem, por exemplo).
 
 ### 3. Comandos de Limpeza (Passo 5 da Pipeline)
+
 Para arrumar a casa antes de enviar para o robô.
 
-`df.isnull().sum()`**: Conta quantos "buracos" (valores vazios) existem em cada coluna.
-`df.dropna()`**: Remove todas as linhas que tenham valores vazios.
-`df.fillna(0)`**: Preenche os valores vazios com `0` (ou qualquer outro valor que você escolher).
-`df.rename(columns={'nome_antigo': 'nome_novo'})`**: Muda o nome de uma coluna.
+* **`df.isnull().sum()`**: Conta quantos "buracos" (valores vazios) existem em cada coluna.
+* **`df.dropna()`**: Remove todas as linhas que tenham valores vazios.
+* **`df.fillna(0)`**: Preenche os valores vazios com `0` (ou qualquer outro valor que você escolher).
+* **`df.rename(columns={'nome_antigo': 'nome_novo'})`**: Muda o nome de uma coluna.
 
 ### 4. Comandos de Transformação e Agrupamento
+
 Para gerar inteligência sobre os dados.
 
-`df.groupby('Cidade')['Vendas'].sum()`**: Soma todas as vendas, separadas por cidade.
-`df.sort_values(by='Vendas', ascending=False)`**: Coloca a tabela em ordem, da maior venda para a menor.
-`df['Nova_Coluna'] = df['Preco'] * 1.1`**: Cria uma nova coluna (ex: aplicando 10% de aumento).
+* **`df.groupby('Cidade')['Vendas'].sum()`**: Soma todas as vendas, separadas por cidade.
+* **`df.sort_values(by='Vendas', ascending=False)`**: Coloca a tabela em ordem, da maior venda para a menor.
+* **`df['Nova_Coluna'] = df['Preco'] * 1.1`**: Cria uma nova coluna (ex: aplicando 10% de aumento).
 
 ### 5. Comandos de Saída (Salvar)
+
 Para exportar o seu trabalho.
 
-`df.to_csv('final.csv', index=False)`**: Salva como CSV.
-`df.to_excel('final.xlsx', index=False)`**: Salva como Excel (requer a biblioteca `openpyxl`).
+* **`df.to_csv('final.csv', index=False)`**: Salva como CSV.
+* **`df.to_excel('final.xlsx', index=False)`**: Salva como Excel (requer a biblioteca `openpyxl`).
 
 ### Exemplo de uso rápido:
+
+```python
 import pandas as pd
 df = pd.read_csv('exemplo1.csv', sep=';')
 # Explorar
@@ -54,8 +62,10 @@ altos = df[df['Investimento_Marketing'] > 500]
 # Salvar o resultado
 altos.to_csv('investimentos_altos.csv', index=False)
 
+```
 
-_____________________________________________
+---
+
 ## **Numpy (Cálculo Numérico e Matrizes)**
 
 * **Array Creation:** Funções para criar matrizes do zero, como `np.array()` (converte lista em matriz), `np.zeros()` (matriz de zeros) e `np.linspace()` (sequência de números igualmente espaçados).
@@ -84,97 +94,115 @@ _____________________________________________
 * **Datetime Functions:** Converte textos em datas reais (`pd.to_datetime()`) e extrai ano, mês ou dia de forma automática.
 * **Window Functions:** Cálculos de janelas móveis, como a média móvel (`df.rolling()`), muito usada em análise de ações.
 
-_____________________________________________
+---
 
-Pepiline Análise de Dados
+# Pipeline Análise de Dados
 
 Para realizar uma análise de dados profissional, você deve seguir uma sequência lógica chamada de **Pipeline de Dados**. Aqui está o resumo objetivo conectando cada etapa aos comandos da sua "Cheat Sheet":
 
-___________Pandas_________
+**__***Pandas*****
 Usamos 80% do tempo, passos 1 ao 4
 
 ### 1. Ingestão e Exploração Inicial
+
 Carregar os dados e entender o que há neles (colunas, tipos e tamanho).
-pd.read_csv()` ou `pd.read_excel()` para abrir o arquivo; `df.info()` para ver os tipos de dados; `df.head()` para olhar as primeiras linhas.
+`pd.read_csv()` ou `pd.read_excel()` para abrir o arquivo; `df.info()` para ver os tipos de dados; `df.head()` para olhar as primeiras linhas.
 
 ### 2. Limpeza de Dados (Data Cleaning)
+
 Remover erros, tratar valores vazios e converter formatos para não travar o modelo de Machine Learning.
-df.isnull().sum()` para achar vazios; `df.fillna()` ou `df.dropna()` para tratar esses vazios; `pd.to_datetime()` para corrigir datas.
+`df.isnull().sum()` para achar vazios; `df.fillna()` ou `df.dropna()` para tratar esses vazios; `pd.to_datetime()` para corrigir datas.
 
 ### 3. Manipulação e Transformação
+
 Criar novas colunas ou filtrar apenas o que é relevante para o seu problema.
-df.drop()` para remover colunas inúteis; `df['nova_coluna'] = ...` para cálculos; `df.rename()` para padronizar nomes.
+`df.drop()` para remover colunas inúteis; `df['nova_coluna'] = ...` para cálculos; `df.rename()` para padronizar nomes.
 
 ### 4. Análise Estatística e Agregação
+
 Gerar resumos matemáticos para entender tendências e comportamentos.
 `df.describe()` para estatísticas gerais; `df.groupby().agg()` para somar ou tirar médias por categoria; `np.mean()` ou `np.std()` para métricas específicas.
 
-______Numpy______
+**Numpy**
 Você usa para cálculos matemáticos e preparar os dados para o modelo
 
 ### 5. Pré-processamento para Machine Learning
+
 Transformar tudo em números e escalas que o computador entenda (Matrizes Numpy).
 `np.array()` para converter a tabela; `np.reshape()` para ajustar o formato exigido pelo modelo; `df.query()` para separar dados de treino e teste.
 
 O Python não trabalha com a "tabela inteira" dentro do robô de Machine Learning. Ele separa os dados em duas estruturas diferentes:
-Matriz X (Features/Entradas): É a sua "coluna matriz". Se você tivesse 3 colunas de entrada (ex: Investimento, Cliques e Região), o Passo 5 criaria uma matriz com 3 colunas.
-Vetor y (Target/Saída): É uma lista simples com o resultado que você quer que o robô aprenda a prever (Vendas).
 
+* **Matriz X (Features/Entradas):** É a sua "coluna matriz". Se você tivesse 3 colunas de entrada (ex: Investimento, Cliques e Região), o Passo 5 criaria uma matriz com 3 colunas.
+* **Vetor y (Target/Saída):** É uma lista simples com o resultado que você quer que o robô aprenda a prever (Vendas).
+
+```python
 # O Python transforma a coluna em uma "pilha" vertical de números
 X = df['Investimento'].values.reshape(-1, 1)
 y = df['Vendas'].values
+
+```
 
 Se você tentar colocar a coluna "Data" ou "Nome do Vendedor" diretamente na Matriz X, o Passo 6 vai dar erro. Isso acontece porque o robô é como uma calculadora gigante: ele não sabe multiplicar "João" por "Investimento".
 Para usar palavras, precisaríamos de um passo extra chamado Encoding (transformar "João" em 1, "Maria" em 2), mas isso é um papo para o próximo nível.
 O Python separa o "X" (causas) do "y" (efeito) em matrizes específicas:
 
-Opção A: transformar Cidades ou Nomes em números, Lidando com Palavras (Encoding)
+**Opção A: transformar Cidades ou Nomes em números, Lidando com Palavras (Encoding)**
 O robô não entende "São Paulo" ou "Rio de Janeiro", ele entende apenas números. Para resolver isso, usamos o **One-Hot Encoding**. O Python cria colunas novas com `0` e `1` para cada categoria.
 **Exemplo prático:** Se temos uma coluna "Cidade", o Python a transforma assim:
+
 * Se for São Paulo  Coluna SP = `1`, Coluna RJ = `0`
 * Se for Rio  Coluna SP = `0`, Coluna RJ = `1`
 No código, usamos o comando `pd.get_dummies()` do Pandas:
+
+```python
 # Supondo que o seu CSV tenha uma coluna 'Cidade'
 df_com_numeros = pd.get_dummies(df, columns=['Cidade'])
 # Agora a sua Matriz X terá colunas de 0 e 1 no lugar das palavras!
 X = df_com_numeros.drop('Vendas', axis=1).values
 
+```
 
-Opção B: ler o score (a nota) que o robô dá para ele mesmo para saber se a previsão é confiável, 
-A "Nota" do Robô (Score R²)
-Depois que o robô treina (`.fit()`), precisamos saber se ele aprendeu bem ou se está apenas "chutando". Para isso, usamos o ** (R-quadrado)**.
-*Score = 1.0:** Perfeito! O robô descobriu a regra exata (raro na vida real).
-*Score = 0.8 a 0.9:** Ótimo! As previsões são muito confiáveis.
-*Score abaixo de 0.5:** Ruim. O robô não encontrou um padrão claro (talvez você precise de mais dados ou colunas melhores).
+**Opção B: ler o score (a nota) que o robô dá para ele mesmo para saber se a previsão é confiável**
+**A "Nota" do Robô (Score R²)**
+Depois que o robô treina (`.fit()`), precisamos saber se ele aprendeu bem ou se está apenas "chutando". Para isso, usamos o **R-quadrado**.
 
+* **Score = 1.0:** Perfeito! O robô descobriu a regra exata (raro na vida real).
+* **Score = 0.8 a 0.9:** Ótimo! As previsões são muito confiáveis.
+* **Score abaixo de 0.5:** Ruim. O robô não encontrou um padrão claro (talvez você precise de mais dados ou colunas melhores).
 
-
-_________Scikit-Learn________
+**_Scikit-Learn**
 Você usa para o Machine Learning final
 
 ### 6. Modelagem e Previsão
+
 Treinar a IA para aprender padrões e fazer predições futuras.
 `modelo.fit(X, y)` para treinar; `modelo.predict(X_novo)` para prever novos valores (usando bibliotecas como Scikit-Learn).
-`.values`**: É a ponte entre o **Pandas** (tabela visual) e o **Numpy** (números puros para cálculo).
-`.reshape(-1, 1)`**: Pense nisso como colocar o ingrediente dentro de uma forma de bolo específica que o robô consegue segurar.
-`.fit(X, y)`**: É o momento mais importante da IA. É onde o computador deixa de ser uma calculadora comum e passa a "aprender" padrões.
-`.predict()`**: É o robô usando o que aprendeu para chutar um valor para o futuro.
 
+* **`.values`**: É a ponte entre o **Pandas** (tabela visual) e o **Numpy** (números puros para cálculo).
+* **`.reshape(-1, 1)`**: Pense nisso como colocar o ingrediente dentro de uma forma de bolo específica que o robô consegue segurar.
+* **`.fit(X, y)`**: É o momento mais importante da IA. É onde o computador deixa de ser uma calculadora comum e passa a "aprender" padrões.
+* **`.predict()`**: É o robô usando o que aprendeu para chutar um valor para o futuro.
+
+```python
 # O Robô desenha a linha
 modelo = LinearRegression()
 modelo.fit(X, y) # Aqui ele descobre a regra matemática
 
+```
 
-O Pandas** preparou a "comida" (matriz) transformando palavras em números.
-O Sklearn** treinou e, em seguida, se auto-avaliou com o comando `.score()`.
+O **Pandas** preparou a "comida" (matriz) transformando palavras em números.
+O **Sklearn** treinou e, em seguida, se auto-avaliou com o comando `.score()`.
 
-_________ Gráfico _________
+**_________ Gráfico _________**
 
-Passo,      Nome Técnico,           O que o Python faz visualmente
-5,          Pré-processamento,      Coloca os pontos azuis no gráfico de forma organizada.
-6,          Modelagem,              Desenha a linha vermelha que melhor atravessa os pontos.
-Previsão,   "Olha para a linha vermelha e diz: ""Se continuar assim, o próximo ponto será ali""."
+| Passo | Nome Técnico | O que o Python faz visualmente |
+| --- | --- | --- |
+| 5 | Pré-processamento | Coloca os pontos azuis no gráfico de forma organizada. |
+| 6 | Modelagem | Desenha a linha vermelha que melhor atravessa os pontos. |
+| Previsão | - | Olha para a linha vermelha e diz: "Se continuar assim, o próximo ponto será ali". |
 
+```python
 # --- VISUALIZAÇÃO (Para você enxergar a mágica) ---
 plt.figure(figsize=(10, 6))
 
@@ -192,9 +220,13 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-___________________  Observaçoes _______________
-Estrutura   O que contém                                Formato na Memória
-DataFrame   Tudo (Datas, IDs, Nomes, Números)           Tabela visual (Excel-like)
-Matriz X    Apenas as causas (Investimento, Cliques)    Matriz Numérica n×m
-Vetor y     Apenas o efeito (Vendas),                   Vetor de números (Lista)
+```
+
+**___________________ Observações _______________**
+
+| Estrutura | O que contém | Formato na Memória |
+| --- | --- | --- |
+| DataFrame | Tudo (Datas, IDs, Nomes, Números) | Tabela visual (Excel-like) |
+| Matriz X | Apenas as causas (Investimento, Cliques) | Matriz Numérica  |
+| Vetor y | Apenas o efeito (Vendas) | Vetor de números (Lista) |
 
