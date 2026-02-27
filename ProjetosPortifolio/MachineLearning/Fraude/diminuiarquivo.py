@@ -17,12 +17,13 @@ naofraude = df[df['Class']==0]
 
 # 3. Criar uma amostra equilibrada de 10.000 registros aleatórios
 # vou pegar proporcional ao arquivo original fraude e nao fraude
-# original tenho 56.864 = 0 = 99.828% e 98 = 1 = 1.172%
-# novo arquivo deve ter 9983 = 0 e 17 = 1
+# original tenho 284.807 sendo 284.315=0= 99.8272% e 492=1=0.1728%
+# novo arquivo reduzido deve ter 10.000, sendo 9983=0 e 17=1, mesma proporção do arquivo original
+# outra opcao o novo arquivoreduzido com TODOS os registros de fraude, total=10.000, sendo 9.508=0=95.08% e  492=1=4.92%=fraude
 # O sample aceita o random_state
 # poderia usar o head() mas nao aceita o random_state
-df_amostrafraude = fraude.sample(n=17, random_state=42)
-df_amostranaofraude = naofraude.sample(n=9983, random_state=42)
+df_amostrafraude = fraude.sample(n=492, random_state=42)
+df_amostranaofraude = naofraude.sample(n=9508, random_state=42)
 
 # 4. juntar os 2 arquivos
 # frac=1: Significa "fração de 100%". Ou seja, eu quero que o Python pegue todos os dados existentes, mas em uma ordem aleatória. Se eu usasse frac=0.5, ele pegaria apenas metade.
@@ -34,11 +35,11 @@ df_amostrafinal = df_amostrafinal.sample(frac=1, random_state=42).reset_index(dr
 
 # 5. Salvar o novo arquivo,  criando um novo .csv
 
-df_amostrafinal.to_csv('creditcard_reduzido.csv', index=False)
+df_amostrafinal.to_csv('creditcard_reduzido10milfraudes.csv', index=False)
 
 print(f"Arquivo reduzido salvo com sucesso! Novo tamanho: {len(df_amostrafinal)} registros.")
 
 # 6. verificando arquivo
-df = pd.read_csv("creditcard_reduzido.csv")
+df = pd.read_csv("creditcard_reduzido10milfraudes.csv")
 
 print(df.info())

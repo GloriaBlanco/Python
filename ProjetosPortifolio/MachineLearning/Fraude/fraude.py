@@ -1,27 +1,41 @@
 """
 Projeto Detecção de Fraude (Classificação)
 O objetivo aqui é ensinar o computador a olhar para uma transação (valor, hora, local) e dizer: 
-
-Isso é Legítimo" ou "Isso é Fraude".
-
+Isso é Legítimo/naoo fraude ou "Isso é Fraude".
 Usei como base o arquivo creditard.csv do site da Kaggle, mas tive que diminuir o numero de registros para poder baixar no github
 
-
-1. Hisórico
-Para este projeto, foquei:
-. Logistic Regression: Para entender a probabilidade base (0 a 1).
+1. Histórico
+Para este projeto:
+. modelo supervisionado de classificaçao
 . Random Forest: Para lidar com a complexidade e evitar pequenos erros do modelo.
-. Matriz de Confusão: Essencial para saber se seu modelo está errando mais o "falso positivo" (bloquear um cliente honesto) ou o "falso negativo" (deixar passar um bandido).
+  - Matriz de Confusão ------ Essencial para saber se seu modelo está errando mais o "falso positivo" (bloquear um cliente honesto) ou o "falso negativo" (deixar passar um bandido).
+    diz onde modelo errou
+  - Features ------ Gráfico de Importância das Variáveis/features
+    diz o porquê. 
+    Se a variável V14 está no topo, você sabe que o comportamento dessa variável é o maior "dedo-duro" da fraude.
+    Como você usou RandomForestClassifier, o modelo "sabe" quais colunas foram mais importantes para decidir se era fraude ou não. 
+    Isso ajuda a entender o modelo.
+  - CURVA PRECISION-RECALL -----
+    O melhor gráfico para dados desbalanceados, como este
+    diz a estabilidade. Se a linha cair muito rápido, o modelo é instável para casos raros.
+  - VISUALIZAÇÃO DE UMA ÁRVORE  -----
+    O Random Forest cria várias árvores. 
+    Vamos ver apenas a primeira que é o index 0
+    mostra a lógica. É aqui dá pra ver o modelo fazendo perguntas do tipo: "O valor da compra é maior que X? Se sim, vá para a esquerda...".
+    É a melhor forma de entender como ele pensa
+ . Logistic Regression: Para entender a probabilidade base (0 a 1).
+
 
 2. O Fluxo do Projeto
 . Coleta: Baixar o dataset do Kaggle.
-. Limpeza: Remover dados nulos e normalizar os valores (ex: transformar R$ 1,00 e R$ 10.000,00 para uma escala entre 0 e 1).
-. Treino: Separar 80% dos dados para o modelo aprender e 20% para testar se ele aprendeu mesmo.
+. diminuir o dataset Kaggle para poder baixar no github
+. Limpeza: Remover dados nulos e normalizar os valores. Exemplo: transformar R$ 1,00 e R$ 10.000,00 para uma escala entre 0 e 1.
+. Separar 80% dos dados para o modelo aprender e 20% para testar se ele aprendeu mesmo.
+. Treino: usaar fit para treinar
 
 Avaliação: Ver a precisão do modelo.
 O passo crucial é entender como medir se o seu modelo é realmente bom.
 Em problemas de classificação, não basta olhar apenas para a "acurácia" (a porcentagem de acertos totais).
-
 Imagine que em um banco, 99% das transações são legítimas. 
 Se o modelo simplesmente disser que "tudo é legítimo", ele terá 99% de acurácia, mas falhará em detectar todas as fraudes. 
 É aqui que entra a Matriz de Confusão.
@@ -66,8 +80,6 @@ A Resposta Prática: Predição IndividualNo final do código, depois podemos te
 A resposta será direta:[0]: Transação Legítima.[1]: Transação Suspeita/Fraude.
 Resumo Se o seu Recall for de 0.95, você terá a satisfação de saber que sua IA pegaria 95% dos bandidos. 
 Mas se sua Precisão for de 0.30, você verá que está bloqueando muita gente inocente e precisaria ajustar o modelo.
-
-
 """
 
 import pandas as pd
@@ -76,29 +88,28 @@ import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, PrecisionRecallDisplay, RocCurveDisplay
+from sklearn.tree import plot_tree
 
 # 1. Carregar os dados reais
-# Certifique-se de que o nome do arquivo está correto
-df = pd.read_csv('creditcard_reduzido.csv')
-
+df = pd.read_csv('creditcard_reduzido10milfraudes.csv')
+print("\n ^^^^^^^^^^^ Dados Arquivo ^^^^^^^^^^")
 print(df.head(10))
-
 print(df.info())
-
 print(df['Class'].value_counts())
-
 print(df['Class'].value_counts(normalize=True))
 
 # 2. Preparação (X = características, y = alvo/fraude)
-X = df.drop('Class', axis=1) # Remove a coluna resposta da entrada
-y = df['Class']              # Define a coluna resposta (0=Bom, 1=Fraude)
+X = df.drop('Class', axis=1) # Remove a coluna target Class
+y = df['Class']              # Define a coluna resposta/target (0=Bom, 1=Fraude)
 
 # 3. Divisão Treino e Teste (80% treina, 20% testa)
+# todo modelo utiliza sempre esta linha de separaçao treino, teste
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
 
-# 4. ------  Random Forrest -------
+# ----- 1º modelo
+# 4. ------  Random Forrest ------- 
 # Criando e treinando o modelo / algoritimo 
 # algoritmo com nome RandomForestClassifier, modelo de aprendizado por conjunto
 # segue regras de If/then, classifica
@@ -109,8 +120,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 modelo = RandomForestClassifier(n_estimators=100, random_state=42)
 modelo.fit(X_train, y_train) # treino
 
-
-# 5. --------- Regression logistic / Regressao logistica -------
+#  ------- 2º modelo
+# 5. --------- Regression logistic / Regressao logistica ------- 
 # Criando o modelo de Regressão Logística
 # segue uma fórmula matemática de soma e pesos
 # mais rápido
@@ -132,8 +143,10 @@ print(classification_report(y_test, y_pred))
 print("\n ^^^^^^^^^^^ Logistic Regression ^^^^^^^^^^")
 print(classification_report(y_test, y_pred_log))
 
-"""
-# 8. Criando a Matriz de Confusão visual
+
+# 8. Gráficos --------- Random Forest --------
+#  Matriz de Confusão visual
+# diz onde modelo errou
 cm = confusion_matrix(y_test, y_pred)
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Legítimo', 'Fraude'], yticklabels=['Legítimo', 'Fraude'])
@@ -142,25 +155,44 @@ plt.ylabel('Valor Real (Gabarito)')
 plt.title('Matriz de Confusão: Detecção de Fraude')
 plt.show()
 
-
-# 9  Gráfico de Importância das Variáveis
-"""
-"""  1. Importância das Features (Feature Importance)
-Como você usou RandomForestClassifier, o modelo "sabe" quais colunas foram mais importantes para decidir se era fraude ou não. Isso ajuda a entender o fenômeno.
-"""
+#  Features --- Gráfico de Importância das Variáveis/features
+# diz o porquê. 
+# Se a variável V14 está no topo, você sabe que o comportamento dessa variável é o maior "dedo-duro" da fraude.
+"""  Como você usou RandomForestClassifier, o modelo "sabe" quais colunas foram mais importantes para decidir se era fraude ou não. 
+Isso ajuda a entender o modelo.
 """
 importancias = modelo.feature_importances_
-features = X.columns
-df_importancia = pd.DataFrame({'Feature': features, 'Importancia': importancias}).sort_values(by='Importancia', ascending=False)
-
-plt.figure(figsize=(12, 8))
-sns.barplot(x='Importancia', y='Feature', data=df_importancia.head(10), palette='viridis')
+df_importancia = pd.DataFrame({'Feature/Variavel': X.columns, 'Importancia': importancias}).sort_values(by='Importancia', ascending=False)
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Importancia', y='Feature/Variavel', data=df_importancia.head(10), palette='viridis', hue='Feature/Variavel')
 plt.title('Top 10 Variáveis mais importantes para detectar Fraude')
 plt.show()
 
+# CURVA PRECISION-RECALL ----
+# O melhor gráfico para dados desbalanceados, como este
+# diz a estabilidade. Se a linha cair muito rápido, o modelo é instável para casos raros.
+plt.figure(figsize=(8, 6))
+# ax = plt.gca()
+PrecisionRecallDisplay.from_estimator(modelo, X_test, y_test, ax=plt.gca(), color='red')
+plt.title('Curva Precision-Recall')
+plt.show()
 
-# 10  Comparando uma variável específica entre as classes
-"""
+# VISUALIZAÇÃO DE UMA ÁRVORE  ---
+# O Random Forest cria várias árvores. 
+# Vamos ver apenas a primeira que é o index 0
+# mostra a lógica. É aqui dá pra ver o modelo fazendo perguntas do tipo: "O valor da compra é maior que X? Se sim, vá para a esquerda...". É a melhor forma de entender como ele pensa
+plt.figure(figsize=(20, 10))
+plot_tree(modelo.estimators_[0], 
+          feature_names=X.columns, 
+          class_names=['Normal', 'Fraude'], 
+          filled=True, 
+          max_depth=3) # Limitamos a profundidade para conseguir enxergar
+plt.title('Visualização de 1 Árvore da Floresta-- Nível 3')
+plt.show()
+
+
+
+# 9  Comparando uma variável específica entre as classes
 """ Boxplot de Distribuição (Outliers)
 Para entender por que o modelo escolheu certas variáveis, escolha a variável mais importante (geralmente a V17, V14 ou V12 nesse dataset) e veja como ela se comporta em transações normais vs. fraudes."""
 """
@@ -168,45 +200,72 @@ plt.figure(figsize=(10, 6))
 sns.boxplot(x='Class', y='V14', data=df) # V14 costuma ser muito relevante
 plt.title('Distribuição da Variável V14: Legítimo (0) vs Fraude (1)')
 plt.show()
-
+"""
 
 """
-"""
-#### Interpretaçao resultados: com arquivo menor
-Resultados 23/02/2026
+#### Interpretaçao resultados: 
+Arquivo menor 10.000
+Resultados 26/02/2026
+Amostra treino teste de 2000
 Class
-0    0.9983
-1    0.0017
+0    9983 / 1997
+1    17 / 3
+^^^^^^^^^^^ Random Forest ^^^^^^^^^^
+              precision    recall  f1-score   support
+           0       1.00      1.00      1.00      1997
+           1       0.75      1.00      0.86         3
+    accuracy                           1.00      2000
+   macro avg       0.88      1.00      0.93      2000
+weighted avg       1.00      1.00      1.00      2000
+
+ ^^^^^^^^^^^ Logistic Regression ^^^^^^^^^^
+              precision    recall  f1-score   support
+           0       1.00      1.00      1.00      1997
+           1       0.75      1.00      0.86         3
+    accuracy                           1.00      2000
+   macro avg       0.88      1.00      0.93      2000
+weighted avg       1.00      1.00      1.00      2000
+
+
+#### Interpretaçao resultados: 
+Arquivo com 20.000
+Resultados 23/02/2026
+Amostra treino teste de 4000
+Class
+0    3993
+1    34 / 7
 Name: proportion, dtype: float64
               precision    recall  f1-score   support
 
            0       1.00      1.00      1.00      3993
            1       1.00      0.57      0.73         7
-
     accuracy                           1.00      4000
    macro avg       1.00      0.79      0.86      4000
 weighted avg       1.00      1.00      1.00      4000
 
-#### Interpretaçao resultados, com arquivo kagle original 
 
-Resultados em 11/02/25 ------------------------------------
+#### Interpretaçao resultados
+# Com arquivo original do kaggle  
+
+Resultados em 11/02/25 
+Resultados 23/02/2026
+Amostra treino teste de 56962
+Class
+0    56864
+1    98
 sim/não     precision  recall  f1-score    support
 0 ok           1         1          1       56864
 1 fraude      0.94       0.82       0.87    98
-
 accuracy                            1       56962
 macro avg      0.97      0.91      0.94     56962
 weighted avg   0.97      0.91      0.94     56962
 
 A precisao apontou as fraudes e 94% acertou mas no geral o modelo nao apontou 18% de todas as fraudes
-
 IA me deu uma analogia: 
 "Para fixar de vez, pense no seu modelo como um Investigador de Polícia:
-
 * Precisão (94%): O Investigador é muito criterioso. 
 Quando ele coloca alguém na viatura e diz "Este é o ladrão!", ele está certo em 94% das vezes. 
 Ele raramente prende um inocente por engano.
-
 * Recall (82%): O Investigador é um pouco "lento". 
 De todos os crimes que aconteceram na cidade naquele dia, ele só conseguiu resolver 82% dos casos. 
 Os outros 18% dos criminosos fugiram e ele nem ficou sabendo quem eram."
@@ -242,7 +301,7 @@ Ele é conservador: prefere deixar passar uma fraude (Recall de 0.82) do que blo
 Detalhado ------------------
 1. O Desequilíbrio (O campo "Support")
 Olhe para a coluna Support. Ela indica quantas transações reais de cada tipo havia no seu teste:
-Classe 0 (Legítimo): 56.864 transações.
+Classe 0 (nao fraude/Legítimo): 56.864 transações.
 Classe 1 (Fraude): 98 transações.
 Conclusão: É um problema de "agulha no palheiro". 
 O modelo tem que ser muito bom para achar 98 fraudes no meio de quase 57 mil casos.
