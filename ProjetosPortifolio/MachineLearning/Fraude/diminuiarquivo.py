@@ -1,13 +1,12 @@
 """
-O arquivo original do kaglle creditcard.csv era muito grande para baixar para o github
-Usei este código para diminuir o numero de registros e assim diminuir arquivo
+Cria outro arquivo com apenas 10mil dados
+Precisa ter o arquivo original do kaglle creditcard.csv 
 """
 
 import pandas as pd
 
 # 1. Carregar o arquivo gigante
 print("Lendo o arquivo original .............")
-
 df = pd.read_csv("creditcard.csv")
 
 # 2. separar quem e fraude Class=1 e quem nao é class=0
@@ -22,24 +21,20 @@ naofraude = df[df['Class']==0]
 # outra opcao o novo arquivoreduzido com TODOS os registros de fraude, total=10.000, sendo 9.508=0=95.08% e  492=1=4.92%=fraude
 # O sample aceita o random_state
 # poderia usar o head() mas nao aceita o random_state
-df_amostrafraude = fraude.sample(n=492, random_state=42)
-df_amostranaofraude = naofraude.sample(n=9508, random_state=42)
+df_amostrafraude = fraude.sample(n=492, random_state=42)   # 492=esta é a qtde de fraudes total no arq original
+df_amostranaofraude = naofraude.sample(n=9508, random_state=42) # 9508=10mil - 492 fraudes
 
 # 4. juntar os 2 arquivos
 # frac=1: Significa "fração de 100%". Ou seja, eu quero que o Python pegue todos os dados existentes, mas em uma ordem aleatória. Se eu usasse frac=0.5, ele pegaria apenas metade.
 #  reset_index(drop=True) = Quando você embaralha ou junta tabelas, os números das linhas (os índices na esquerda) ficam todos bagunçados (ex: a linha 500 vira a primeira, a linha 10 vira a segunda)
 #  drop=True: Diz ao Python: "Apague os números de linha antigos e crie uma nova sequência começando do 0, 1, 2...". Se você não colocar isso, o Python cria uma coluna extra chamada "index" com os números velhos, o que só suja o seu arquivo.
-
 df_amostrafinal = pd.concat([df_amostrafraude, df_amostranaofraude])
 df_amostrafinal = df_amostrafinal.sample(frac=1, random_state=42).reset_index(drop=True)
 
 # 5. Salvar o novo arquivo,  criando um novo .csv
-
 df_amostrafinal.to_csv('creditcard_reduzido10milfraudes.csv', index=False)
-
 print(f"Arquivo reduzido salvo com sucesso! Novo tamanho: {len(df_amostrafinal)} registros.")
 
 # 6. verificando arquivo
 df = pd.read_csv("creditcard_reduzido10milfraudes.csv")
-
 print(df.info())
