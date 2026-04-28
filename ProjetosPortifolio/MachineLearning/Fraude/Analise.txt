@@ -1,0 +1,54 @@
+Análise arquivo do kaggle creditcard.csv
+Verificar qual modelo é o melhor para detectar fraude em uma compra
+0=OKnaofraude
+1=fraude
+
+Testei o modelo Random Forest com 3 tipos de dados/arquivos
+Eu tenho no arquivoo 1 original =284.807 registros sendo 284.315=ok e  492=fraude, o arquivo 2 reduzido proporciaonalmente ao original =10mil registros, sendo 9983=ok e 17=fraude, o arquivo 3 coloquei todos os casos de fraude do arquivo original, mas reduzi a quantidade registro ok e no total fiquei também com 10mil registros como arquivo numero 2 mas sendo 9508=ok e 492=fraude. Fiz o modelo random forest com 80% e 20% treino, test nos tres arquivos para ver a diferença.
+
+1º Arquivo original com 284.807 reegistros/dados, sendo 284.315=0=99.8272%=OKnaofraude e 492=1=1.01728%=fraude
+2º Arquivo reduzido com 10mil dados, usando a mesma proporção do original, 9983=0=OKnaofraude e 17=1=fraude
+3º Arquivo reduzido com 10mil dados mas com todos os registros/casos de fraude do arquivo original, sendo 9.508=0=95.08%=naofraude e  492=1=4.92%=fraude.
+   No 3º arquivo a proporcao é diferente do arquivo original
+
+1º Arquivo original com total de 284.807 reegistros/dados, sendo 284.315=0=99.8272%=OKnaofraude e 492=1=1.01728%=fraude
+              precision    recall  f1-score   support
+           0       1.00      1.00      1.00     56864
+           1       0.94      0.82      0.87        98
+    accuracy                           1.00     56962
+   macro avg       0.97      0.91      0.94     56962
+weighted avg       1.00      1.00      1.00     56962
+
+
+2º Arquivo reduzido com total 10mil dados, sendo  9983=0=OKnaofraude e 17=1=fraude, mesma proporcao original
+               precision   recall  f1-score   support
+           0      1.00      1.00      1.00      1997
+           1      0.75      1.00      0.86         3
+    accuracy                          1.00      2000
+   macro avg      0.88      1.00      0.93      2000
+weighted avg      1.00      1.00      1.00      2000
+
+
+3º Arquivo reduzido com total 10 mil dados mas com todos os registros/casos de fraude do arquivo original, sendo 9.508=0=95.08%=naofraude e  
+492=1=4.92%=fraude, proporcao diferente do arquivo original
+              precision    recall  f1-score   support
+           0       0.99      1.00      0.99      1902
+           1       0.99      0.81      0.89        98
+    accuracy                           0.99      2000
+   macro avg       0.99      0.90      0.94      2000
+weighted avg       0.99      0.99      0.99      2000
+
+
+Resultado ---------------------------------------
+
+                     Completo             Reduzido          ComFraude/reduzido            
+total                284.807              10.000               10.000
+Amostra              56.692               2000                  2000
+    0              284.315/56864          9983/1997          9508/1902 passou 19 como legitimo e eram fraude
+    1                 492/98               17/3                 492/98  * aqui igual completo 
+porcentagem       99.8272%/0.1728%     99.8272%/0.1728%     95.08%/4.92% 
+variavelimport          V17                 V17                 V14
+Acerto=Fraude     80/98 =81.63%           3/3 =100%          79/98 =80.61%
+Erro=erafraude   18/98 =18.37%            0/3                19/98 =19.39%
+Acerto=OK      56.859/56864 =99.99%    1996/1997 =99.95%       1901/1902 =99,95%
+Erro=eraOK       5/56864  =0.01%       1/1997  =0.05%          1/1902 =0.05%

@@ -1,0 +1,123 @@
+~~~~~~~~ Dica de Ouro :
+
+Sempre que for explicar um projeto (como o de Fraude), use essa estrutura:
+
+"Eu tinha um problema de Classificação..."
+
+"Usei o algoritmo Random Forest do Scikit-Learn..."
+
+"E avaliei o desempenho usando a Matriz de Confusão para garantir que não deixaria passar fraudes reais."
+
+~~~~~Estatística e ciclo dos Dados : 
+~ Preparação de Dados: Experiência em todo o ciclo de ETL (Extração, Transformação e Carga) e Data Wrangling (preparação de dados | tratamento), estruturando pipelines de dados para garantir a qualidade e integridade das análises.
+
+~ Análise Exploratória- EDA: Realização de análise exploratória profunda, utilizando estatística descritiva (métricas|resumo)  e inferencial (conclusão | testes de hipóteses e correlação) para identificação de padrões, insights  e suporte à tomada de decisão.
+
+~ Ciência de Dados e Machine Learning: Desenvolvimento de modelos supervisionados de modelagem preditiva, utilizando a biblioteca Scikit-Learn com algoritmos de Classificação (Regressão Logística, Decision Tree, Random Forest, K-NN | categóricas=S/N,A/B/C), e modelos de Regressão  (Regressão Linear, Árvores de Regressão | valores numéricos).
+
+~ Visualização e Storytelling: Criação de dashboards estratégicos e intuitivos utilizando ferramentas de BI como Power BI e  Looker Studio, além das bibliotecas Matplotlib e Seaborn do Python para transformar dados complexos em soluções para o negócio.
+
+~~~~Competências Técnicas e Processos de Dados:
+Proficiente em todo o ciclo de vida do dado, atuando desde a construção de Pipelines de Dados e processos de ETL (Extração, Transformação e Carga) até o Data Wrangling para tratamento de bases complexas. Experiência em Análise Estatística (Descritiva e Inferencial com testes de hipóteses) e EDA (Análise Exploratória) para identificação de padrões e correlações. Conhecimento em Machine Learning, com foco em modelos supervisionados de Classificação (Regressão Logística, Decision Treee, tandom Forest, K-NN) e Regressão (Regressão Linear, Árvores de Decisão) utilizando a biblioteca Scikit-Learn. Expertise na criação de Dashboards e Visualização de Dados utilizando ferramentas de mercado (Power BI, Looker Studio) e bibliotecas Python (Matplotlib, Seaborn).
+
+~~~ Scikit-Learn ---  Procedimento Padrão Universal Workflow
+Carregar os dados: Abrir o seu arquivo = CSV, Excel.
+Separar X e y: X é o que você usa para prever as colunas; y é o que você quer descobrir, o alvo.
+Dividir Treino e Teste: Separar uma parte dos dados para o modelo aprender e outra para você testar se ele aprendeu mesmo.
+Importar e Instanciar: Chamar a ferramenta da biblioteca e dar um nome a ela.
+Ajustar /Fit: É aqui que o modelo "estuda" os dados de treino.
+Predição /Predict: O modelo tenta adivinhar os resultados dos dados de teste.
+Avaliar: Comparar o que o modelo chutou com o que era a verdade.
+
+~~~~~~~~ Modelos supervisionados de ***  Classificação e Regressão 
+#####   Passos Comum a todos Modelos de Classificação = categoricas = S/N A/B/C
+1. Fluxo Comum  dos modelos de Regressão e Classificação 
+    from sklearn.model_selection import train_test_split
+
+2.  df = pd.read_csv('seu_arquivo.csv')
+     Matriz de correlação =analisar as colunas X tem relação com o q quero prever y . 
+    E posso verificar quais colunas podem entrar no modelo
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    correlacao = df.corr()    # Criar a matriz numérica de correlação
+    sns.heatmap(correlacao, annot=True, cmap='coolwarm')  #Criar o gráfico Heatmap
+    plt.show()
+
+3.  Separar X (dados) e y (alvo)
+      X = df.drop('coluna_alvo', axis=1)
+      y = df['coluna_alvo']
+
+4.  separar X (dados) e y (alvo)
+    * Separar X e y:   Classificação:  y é uma categoria=fraude/naofraude, spam/naospam
+                                Regressão: y é um número = preço do Imóvel
+     X = df.drop('coluna_alvo', axis=1)
+     y = df['coluna_alvo']
+
+5.  Dividir Treino = 80% = perguntas e respostas e Teste 20% = perguntas e gabarito com respostas
+      X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.2)
+
+6.  ~~***  Classificação = categoricas = S/N,  A/B/C, fraude
+Algoritmos
+* **Logistic Regression :**  Regressão Logística
+    from sklearn.linear_model import LogisticRegression
+    modelo = LogisticRegression()
+    ```
+* **Decision Tree:** Árvore de Decisão
+    from sklearn.tree import DecisionTreeClassifier
+    modelo = DecisionTreeClassifier()
+    ```
+* **Random Forest:** Floresta Aleatória
+    ```python
+    from sklearn.ensemble import RandomForestClassifier
+    modelo = RandomForestClassifier()
+    ```
+* **K-NN:**
+    from sklearn.neighbors import KNeighborsClassifier
+    modelo = KNeighborsClassifier(n_neighbors=5)      OU =   modelo = KNeighborsClassifier()
+    ```
+---
+6. ~~***  Regressão = valor numérico  = preço do imóvel, Idade, Salário, Quantidade
+O processo é o mesmo, mudando apenas a ferramenta e a forma de medir o erro.
+* **Linear Regression :**   Regressão Linear
+      from sklearn.linear_model import LinearRegression
+      modelo = LinearRegression()
+      ```
+* **Regression Tree:**   Árvore de Regressão
+     from sklearn.tree import DecisionTreeRegressor
+     modelo = DecisionTreeRegressor()
+     ```
+* **K-NN Regression:**
+    from sklearn.neighbors import KNeighborsRegressor
+    modelo = KNeighborsRegressor(n_neighbors=5)      OU =   modelo = KNeighborsClassifier()
+    ```
+---
+
+7.  ~~~~~~ ***   Modelo = Treinar modelo TODOS
+      modelo.fit(X_treino, y_treino)          OU = modelo.fit(X_train, y_train)     
+   
+8. ~~~~~~~***   Predição , Previsões:** avaliar modelo
+       predicoes = modelo.predict(X_teste)  OU = (X_test)
+        
+9.   ~~~~~~***   Avaliação - verifica se acertou
+     ~~~ Classificação  
+             **    Accuracy, acurácia, F1-Score = mede o percentual % geral de acerto  
+             from sklearn.metrics import accuracy_score
+             print(accuracy_score(y_teste, predicoes))
+             Acurácia (0 a 1): Quanto mais perto de 1, mais ele acertou as categorias.
+
+             **  Matriz de confusão=mostra o q ele confundiu (achou q era 'Fraude' mas era 'Compra Normal'
+             from sklearn.metrics import confusion_matrix
+             print(confusion_matrix(y_teste, predicoes))
+             R² Score (0 a 1): Quanto mais perto de 1, melhor o modelo explica os números.
+             ```
+
+     ~~~ Regressão = avaliar Métrica de número
+             from sklearn.metrics import mean_squared_error,  mean_absolute_error,  r2_score
+             print(mean_squared_error(y_teste, predicoes)) #Erro médio MSE =quanto menor o erro, melhor
+             print(mean_absolute_error(y_teste, predicoes)) #Erro absoluto MAE=mostra erro médio em núms
+             print(r2_score(y_teste, predicoes))      # Mostra o quanto o modelo explica os dados (0 a 1)
+
+             MSE/MAE: Quanto mais perto de 0, melhor (menos erro).
+----
+
+
