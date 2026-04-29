@@ -1,5 +1,5 @@
 # Este arquivo consiste no módulo "funcoes_do_log"
-
+# defini uma variavel e uma função
 nome_de_usuario = 'Dori'
 
 def imprimir_no_log(texto, nivel='info'):

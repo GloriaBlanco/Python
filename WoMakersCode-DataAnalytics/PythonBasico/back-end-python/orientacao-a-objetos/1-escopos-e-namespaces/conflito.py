@@ -10,3 +10,5 @@ def imprimir_no_log(texto): # sobrescreve a função importada do módulo "funco
     print(texto)
 
 imprimir_no_log(f'Bem vinda, {nome_de_usuario}!')
+
+# cuidado criado uma nova função e tem mesmo nome da funcao do outro arquivo importado pelo *

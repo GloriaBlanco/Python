@@ -19,6 +19,7 @@ def cardapio():
 cardapio()
 print()
 
+
 # Ao alterar o valor de uma variável global dentro de uma função, na verdade é criada
 # outra variável com o mesmo nome dentro do escopo da função e a variável global
 # permanece intacta.

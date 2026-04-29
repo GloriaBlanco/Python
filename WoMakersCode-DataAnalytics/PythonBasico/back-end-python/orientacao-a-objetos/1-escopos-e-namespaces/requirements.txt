@@ -1,1 +1,4 @@
 colorama
+# aqui posso colocar todas as bibliotecas que preciso instalar no projeto
+# e mandar executar este arqquivo txt de uma vezz instala todas as bibliotecas
+# pip install -r requirements.txt
