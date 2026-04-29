@@ -1,4 +1,8 @@
+""" Funções
+dapalavra.Ojogadorteráumnúmerolimitadode6tentativas.Emcadatentativa,ojogadorpodefornecerumaletra.Sealetraestiverpresentenapalavrasecreta,elaseráreveladanasposiçõescorrespondentes.Sealetranãoestivernapalavra,umamensagemdeerrodeveráserinformada.Apósumnúmeromáximodeerros,ojogadorperde.Ojogocontinuaatéqueojogadoradivinheapalavraouexcedaonúmeromáximodetentativas.Dica:Vocêprecisaráimportarumabibliotecapararesolveresseexercício
 
+
+"""
 
 def soma():
     calculo = 10+2
