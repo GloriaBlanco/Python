@@ -1,4 +1,23 @@
-# Definição da classe
+""" 
+POO=Programação orientada a objetos é um paradigma (ddiferente de fazer)
+Poo sao autoconidos e reutilizáaveis
+Objetos = ator =  livros, tv
+objetos = propriedade+comportamento
+propiedades/atributos = volume, ligada, desligada, canal
+comportamentos/método = açoes = aumentar ou diminuir volume, liga/desliga, mudar canal
+muda_canal_para_cima(televisao, canal)
+
+POO traz novos conceitos para a linguagem = classes, herança, encapsulamento, abstraçoes e polimorfismo
+* classes = nao sao objetos, classes descrevem e definem o que o objeto sera, o que a TV vai ser
+cria o objeto é  =  tv_sala = Televisao()   === tv_sala é uma insttanccia e Televisao() = classe
+Toda classe tem um  metodoo(tipo de funçao) chamado construtor
+Parametro self indica instancia da classe = objeto
+
+
+"""
+
+
+## Definição da classe
 class Televisao: # Convenção para nomes de classes: PascalCasing
     def __init__(self):
         self.ligada = False
@@ -76,6 +95,7 @@ print()
 
 # Já usamos classes antes quando falamos de tipos de dados relativos a datas
 from datetime import date
+# o datetime = modulo e o date = classe
 
 # Dia é um objeto, ou seja, uma instância da classe date
 dia = date(2019, 2, 22)
