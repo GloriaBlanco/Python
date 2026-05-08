@@ -1,6 +1,6 @@
 # Crie uma classe que modele o objeto "carro".
 # Um carro tem os seguintes atributos: ligado, cor, modelo, velocidade.
-# Um carro tem os seguintes comportamentos: liga, desliga, acelera, desacelera.
+# Um carro tem os seguintes comportamentos/métodos: liga, desliga, acelera, desacelera.
 
 
 class Carro:
@@ -35,9 +35,8 @@ class Carro:
         if not self.ligado:
             return
 
-        if self.velocidade > self.acelera_max:
+        if self.velocidade < self.acelera_max:
             self.velocidade += 10
-
 
     def __str__(self) -> str:
         return f'Carro  - ligado {self.ligada} - cor {self.cor} - modelo {self.modelo} - velocidade {self.velocidade}'
@@ -49,14 +48,9 @@ carro = Carro()
 
 # Faça o carro "andar" utilizando os métodos da sua classe.
 carro.ligar()
-print('Carro está ligada? {}'.format(carro.ligado))
+print('Carro está ligado? {}'.format(carro.ligado))
 
 
 # Faça o carro "parar" utilizando os métodos da sua classe.
-"""for _ in range(3):
-    tv_sala.aumentar_volume()
-
-print('tv_sala volume: {}'.format(tv_sala.volume))
-print('tv_quarto volume: {}'.format(tv_quarto.volume))
-print()
-"""
+carro.desligar()
+print('Carro está ligado? {}'.format(carro.ligado))
